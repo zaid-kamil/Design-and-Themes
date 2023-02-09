@@ -5,6 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.BounceInterpolator
+import android.view.animation.OvershootInterpolator
 import androidx.navigation.fragment.findNavController
 import com.digipod.designandthemes.databinding.FragmentSecondBinding
 
@@ -35,6 +38,29 @@ class SecondFragment : Fragment() {
         binding.buttonSecond.setOnClickListener {
             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
         }
+        binding.textView2.animate()
+            .translationYBy(1000f)
+            .rotationYBy(360f)
+            .scaleX(1.2f)
+            .scaleY(1.2f)
+            .setDuration(3000L)
+            .setInterpolator(BounceInterpolator())
+            .start()
+        binding.textView2.setOnLongClickListener {
+            binding.textView2.animate()
+                .translationYBy(-1000f)
+                .scaleX(1f)
+                .scaleY(1f)
+                .setDuration(3000L)
+                .setInterpolator(OvershootInterpolator())
+                .setUpdateListener {
+                    binding.buttonSecond.animate()
+                        .translationYBy(-2000f)
+                }
+                .start()
+            true
+        }
+        binding.buttonSecond.translationY = 2000f
     }
 
     override fun onDestroyView() {

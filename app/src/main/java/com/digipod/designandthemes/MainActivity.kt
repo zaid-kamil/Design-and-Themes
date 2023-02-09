@@ -1,5 +1,6 @@
 package com.digipod.designandthemes
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -9,16 +10,23 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import com.digipod.designandthemes.FirstFragment.Companion.PREF_DARK_THEME
 import com.digipod.designandthemes.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-
+    private lateinit var prefs: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        prefs = getSharedPreferences("mypref", MODE_PRIVATE)
+        val isDarkTheme = prefs.getBoolean(PREF_DARK_THEME, false)
+        if (isDarkTheme) {
+            setTheme(R.style.Theme_DesignAndThemes_Dark)
+        } else {
+            setTheme(R.style.Theme_DesignAndThemes)
+        }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
     }
